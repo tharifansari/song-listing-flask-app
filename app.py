@@ -53,6 +53,10 @@ def login():
     return render_template('login.html')
 
 
+@app.route('/add_song')
+def add_a_song():
+    return render_template('add_song.html')
+
 @app.route('/add_user', methods=['POST'])
 def add_user():
     username = request.form.get('username')

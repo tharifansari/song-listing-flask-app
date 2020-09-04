@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <style>
+
+        @charset "UTF-8";
+        @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+        body {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 300;
+        line-height: 1.42em;
+        color:#A7A1AE;
+        background-color:#1F2739;
+        }
+
+        h1 {
+        font-size:3em; 
+        font-weight: 300;
+        line-height:1em;
+        text-align: center;
+        color: #4DC3FA;
+        }
+
+        h2 {
+        font-size:1em; 
+        font-weight: 300;
+        text-align: center;
+        display: block;
+        line-height:1em;
+        padding-bottom: 2em;
+        color: #FB667A;
+        }
+
+        h2 a {
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #FB667A;
+        text-decoration: none;
+        }
+
+        .blue { color: #185875; }
+        .yellow { color: #FFF842; }
+        .form {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 400px;
+  margin: 0 auto 100px;
+  /*margin-left: 50%;
+  margin-right: -60%;*/
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.form select {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.form .submit_button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #32a2a8;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+  background: #32a2a8;
+}
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+.form .message a {
+  color: #32a2a8;
+  text-decoration: none;
+}
+.form .register-form {
+  display: none;
+}
+        .container {
+            text-align: left;
+            overflow: hidden;
+            width: 80%;
+            margin: 0 auto;
+        display: table;
+        padding: 0 0 8em 0;
+        }
+        .navbar {
+  overflow: hidden;
+  background-color: #2C3446;
+  font-family: Arial;
+}
+
+/* Links inside the navbar */
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* The dropdown container */
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+/* esdfghljkkhgfdsaqwertyuioplkjhgfdsaZXCVBNM,. */
+#modl {
+  font-size: 16px; 
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+#modl:hover{
+  background-color: #FFF842;
+  color: #403E10;
+    font-weight: bold;
+}
+/* Dropdown button */
+.dropdown .dropbtn {
+  font-size: 16px; 
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+/* Add a red background color to navbar links on hover */
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: #FFF842;
+  color: #403E10;
+    font-weight: bold;
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+/* Add a grey background color to dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+        @media (max-width: 800px) {
+        .container td:nth-child(4),
+        .container th:nth-child(4) { display: none; }
+        }
+    </style>
+    <script>
+      $('#show').on('click', function () {
+    $('.center').show();
+    $(this).hide();
+})
+
+$('#close').on('click', function () {
+    $('.center').hide();
+    $('#show').show();
+})
+    </script>
+
+</head>
+<body>
+<!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Add Artist</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form action="/check_login" method="post" class="login-form">
+          <input type="text" name="artist_name" placeholder="Artist Name">
+          <br><br>
+          <input type="date" name="artist_dob" placeholder="Date of Birth">
+          <br><br>
+          <input type="text" name="artist_bio" placeholder="Bio">
+          <br><br>
+          <input class="submit_button" type="submit" value="Submit">
+          <br><br>
+      </form> 
+      </div>
+      
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+  
+    <div class="navbar">
+        <a href="/top_10_songs">Back</a>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+          Add Artist<i class="fa fa-caret-down"></i>
+        </button>        
+      </div> 
+          
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">
+        Rate a Song<i class="fa fa-caret-down"></i>
+      </button>        
+        
+        <!-- <button></button> -->
+        <!-- <a href="#home">Add Artist</a> -->
+      <br>
+      <div class="container">
+        <h1><i>Adding Song</i></h1>
+          <div class="form">
+
+        <form action="/" method="post">
+            <p><b>Song Name</b></p>
+            <input type="text" name="song_name" placeholder="Enter the song name">
+            <p><b>Date of Release</b></p>
+            <input type="date" name="song_date" placeholder="Date Released">
+            <p><b>Cover Image</b></p>
+            <input type="file" name="cover_image" placeholder="Cover Image">
+            <p><b>Select Artist</b></p>
+            <select name="cars" id="cars" multiple>
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="opel">Opel</option>
+                <option value="audi">Audi</option>
+            </select>
+            <br><br>
+            <input class="submit_button" type="submit" value="Submit">
+        </form> 
+    </div>
+    </div>
+<div class="center hideform">
+    <button id="close" style="float: right;">X</button>
+    <form action="/action_page.php">
+        First name:<br>
+        <input type="text" name="firstname" value="Mickey">
+        <br>
+        Last name:<br>
+        <input type="text" name="lastname" value="Mouse">
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+
+
+<div class="modal" id="myModal1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Add Artist</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form action="/rating" method="post" class="login-form">
+          <!-- drop down -->
+          <select name="song_list" id="songs_list">
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="opel">Opel</option>
+            <option value="audi">Audi</option>
+        </select>
+        <input type="range" id="rting" name="rangeInput" min="0" max="5" step="0.1" onChange="change();"><span id="rs"></span>
+
+
+          <br><br>
+          <input class="submit_button" type="submit" value="Submit">
+          <br><br>
+      </form> 
+      </div>
+      
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<!-- <button id="show">Show form</button> -->
+</body>
+<script>
+  var result = document.getElementById("rs");
+  var mine = document.getElementById("rting");
+  function change(){
+      result.innerText = mine.value;
+  }
+  </script>
+</html>
