@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, session, flash
+from flask import Flask, render_template, request, url_for, redirect, session, make_response, jsonify
 import os
 import requests 
 import json
@@ -15,6 +15,29 @@ def make_md5_hash(user_entered_password):
     result = hashlib.md5(user_entered_password.encode()) 
     password_hash = result.hexdigest()
     return password_hash
+
+
+@app.route("/add_new_artist", methods=["POST"])
+def add_a_new_artist():
+    if 'userid' not in session:
+        return redirect('/')
+    artist_name = request.form['artist_name']
+    artist_dob = request.form['artist_dob']
+    artist_bio = request.form['artist_bio']        
+    
+    data = {
+        "name":artist_name,
+        "dob":artist_dob,
+        "bio":artist_bio
+    }
+    # print(data)
+    respnse = requests.post(api_url+"/artist", data=json.dumps(data))
+    if respnse.status_code == 200:
+        respns = {"msg":"Success"}
+        return make_response(jsonify(respns), 200)
+
+
+
 
 @app.route("/top_10_songs", methods=["GET"])
 def top_10_songs():    

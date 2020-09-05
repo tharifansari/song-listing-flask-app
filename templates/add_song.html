@@ -162,16 +162,18 @@
       
       <!-- Modal body -->
       <div class="modal-body">
-        <form action="/check_login" method="post" class="login-form">
-          <input type="text" name="artist_name" placeholder="Artist Name">
+        <form action="/add_new_artist" id="artist_form" method="post" class="login-form">
+          <input type="text" name="artist_name" id="artist_name" placeholder="Artist Name">
           <br><br>
-          <input type="date" name="artist_dob" placeholder="Date of Birth">
+          <input type="date" id="artist_dob" name="artist_dob" placeholder="Date of Birth">
           <br><br>
-          <input type="text" name="artist_bio" placeholder="Bio">
+          <input type="text" name="artist_bio" id="artist_bio" placeholder="Bio">
           <br><br>
-          <input class="submit_button" type="submit" value="Submit">
+          <input class="submit_button" id="new_artist_submit" type="submit" value="Submit">
           <br><br>
       </form> 
+      <div id="form-response"></div>
+
       </div>
       
       <!-- Modal footer -->
@@ -265,5 +267,73 @@
   function change(){
       result.innerText = mine.value;
   }
+  </script>
+  <script>
+
+$(document).ready(function() {
+
+$('#artist_form').on('submit', function(event) {
+
+  $.ajax({
+    data : {
+      artist_name : $('#artist_name').val(),
+      artist_dob : $('#artist_dob').val(),
+      artist_bio : $('#artist_bio').val()
+    },
+    type : 'POST',
+    url : '/add_new_artist'
+  })
+  event.preventDefault();
+
+});
+
+});
+
+// $('#new_artist_submit').click(function(event){
+//     // Prevent redirection with AJAX for contact form
+//     // event.preventDefault();
+//     var form = $('#artist_form');
+//     var form_id = 'artist_form';
+//     var url = form.prop('action');
+//     var type = form.prop('method');
+//     var formData = getContactFormData(form_id);
+
+//     // submit form via AJAX
+//     // 
+    
+//     send_form(form, form_id, url, type, modular_ajax, formData);
+    
+// });
+
+// function getContactFormData(form) {
+//     // creates a FormData object and adds chips text
+//     var formData = new FormData(document.getElementById(form));
+// //    for (var [key, value] of formData.entries()) { console.log('formData', key, value);}
+//     return formData
+// }
+
+// function modular_ajax(url, type, formData) {
+//     // Most simple modular AJAX building block
+//     $.ajax({
+//         url: url,
+//         type: type,
+//         data: formData,
+//         processData: false,
+//         contentType: false,
+//         success: function ( data ){
+//             if ( !$.trim( data.msg )) { // response from Flask is empty
+//                 toast_error_msg = "An empty response was returned.";
+//             }
+//             else { // response from Flask contains elements
+//                 toast_error_msg = data.msg;
+
+//             }
+//         },
+//         error: function(xhr) {console.log("error. see details below.");
+//             console.log(xhr.status + ": " + xhr.responseText);
+//             toast_error_msg = "An error occured";
+//         },
+//     })
+// };
   </script>
 </html>
