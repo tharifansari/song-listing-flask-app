@@ -17,6 +17,14 @@ def make_md5_hash(user_entered_password):
     return password_hash
 
 
+@app.route("/add_artists_options", methods=["GET"])
+def select_option_update():
+    all_artist = json.loads(requests.get(api_url+"/artist").content)
+    data = {}
+    for artst in all_artist:
+        data[artst['name']] = artst['name']
+    return make_response(jsonify(data), 200)
+
 @app.route("/add_new_artist", methods=["POST"])
 def add_a_new_artist():
     if 'userid' not in session:

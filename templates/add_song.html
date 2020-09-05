@@ -178,7 +178,7 @@
       
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" id="reload_artist_options" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>
       
     </div>
@@ -271,7 +271,22 @@
   <script>
 
 $(document).ready(function() {
+  $('#reload_artist_options').on('click',function(event){
+    $.ajax({
+      type : 'GET',
+      url : '/add_artists_options'
+    }).done(function(data){
+      var $el = $("#artists");
+    $el.empty(); // remove old options
+    $.each(data, function(key,value) {
+      $el.append($("<option></option>").attr("value", value).text(key));
+    });
+    });
+    event.preventDefault();
+  });
+});
 
+$(document).ready(function() {
 $('#artist_form').on('submit', function(event) {
 
   $.ajax({
@@ -282,7 +297,7 @@ $('#artist_form').on('submit', function(event) {
     },
     type : 'POST',
     url : '/add_new_artist'
-  })
+  });
   event.preventDefault();
 
 });
