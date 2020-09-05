@@ -118,14 +118,15 @@
         display: table;
         padding: 0 0 8em 0;
         }
-        .navbar {
+        .navbar, #add_artist_bttn, #rating_bttn {
   overflow: hidden;
   background-color: #2C3446;
   font-family: Arial;
+  border: none;
 }
 
 /* Links inside the navbar */
-.navbar a {
+.navbar a, #add_artist_bttn, #rating_bttn {
   float: left;
   font-size: 16px;
   color: white;
@@ -134,74 +135,11 @@
   text-decoration: none;
 }
 
-/* The dropdown container */
-.dropdown {
-  float: left;
-  overflow: hidden;
-}
-/* esdfghljkkhgfdsaqwertyuioplkjhgfdsaZXCVBNM,. */
-#modl {
-  font-size: 16px; 
-  border: none;
-  outline: none;
-  color: white;
-  padding: 14px 16px;
-  background-color: inherit;
-  font-family: inherit; /* Important for vertical align on mobile phones */
-  margin: 0; /* Important for vertical align on mobile phones */
-}
-#modl:hover{
-  background-color: #FFF842;
-  color: #403E10;
-    font-weight: bold;
-}
-/* Dropdown button */
-.dropdown .dropbtn {
-  font-size: 16px; 
-  border: none;
-  outline: none;
-  color: white;
-  padding: 14px 16px;
-  background-color: inherit;
-  font-family: inherit; /* Important for vertical align on mobile phones */
-  margin: 0; /* Important for vertical align on mobile phones */
-}
-
 /* Add a red background color to navbar links on hover */
-.navbar a:hover, .dropdown:hover .dropbtn {
+.navbar a:hover,#add_artist_bttn:hover, #rating_bttn:hover {
   background-color: #FFF842;
   color: #403E10;
     font-weight: bold;
-}
-
-/* Dropdown content (hidden by default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-  float: none;
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
-}
-
-/* Add a grey background color to dropdown links on hover */
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-  display: block;
 }
 
         @media (max-width: 800px) {
@@ -209,18 +147,6 @@
         .container th:nth-child(4) { display: none; }
         }
     </style>
-    <script>
-      $('#show').on('click', function () {
-    $('.center').show();
-    $(this).hide();
-})
-
-$('#close').on('click', function () {
-    $('.center').hide();
-    $('#show').show();
-})
-    </script>
-
 </head>
 <body>
 <!-- The Modal -->
@@ -256,26 +182,26 @@ $('#close').on('click', function () {
     </div>
   </div>
 </div>
-  
-    <div class="navbar">
-        <a href="/top_10_songs">Back</a>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-          Add Artist<i class="fa fa-caret-down"></i>
-        </button>        
-      </div> 
-          
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">
-        Rate a Song<i class="fa fa-caret-down"></i>
-      </button>        
-        
-        <!-- <button></button> -->
-        <!-- <a href="#home">Add Artist</a> -->
+
+<div class="navbar">
+  <a href="/top_10_songs">Top 10 Songs</a>
+  <a href="/top_10_artist">Top 10 Artists</a>
+  <a href="/add_song">Add a Song</a>
+  <button type="button" id="add_artist_bttn" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    Add Artist
+  </button>        
+  <button type="button" id="rating_bttn" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">
+    Rate a Song
+  </button>        
+</div>
+      
       <br>
       <div class="container">
-        <h1><i>Adding Song</i></h1>
+        <h1><i>Add a Song</i></h1>
+        <br>
           <div class="form">
 
-        <form action="/" method="post">
+        <form action="/adding_song" method="post">
             <p><b>Song Name</b></p>
             <input type="text" name="song_name" placeholder="Enter the song name">
             <p><b>Date of Release</b></p>
@@ -283,31 +209,16 @@ $('#close').on('click', function () {
             <p><b>Cover Image</b></p>
             <input type="file" name="cover_image" placeholder="Cover Image">
             <p><b>Select Artist</b></p>
-            <select name="cars" id="cars" multiple>
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="opel">Opel</option>
-                <option value="audi">Audi</option>
-            </select>
+            <select name="artists" id="artists" multiple>
+            {%for artst in artist_names%}
+                <option value="{{artst}}">{{artst}}</option>
+            {% endfor %}
+              </select>
             <br><br>
             <input class="submit_button" type="submit" value="Submit">
         </form> 
     </div>
     </div>
-<div class="center hideform">
-    <button id="close" style="float: right;">X</button>
-    <form action="/action_page.php">
-        First name:<br>
-        <input type="text" name="firstname" value="Mickey">
-        <br>
-        Last name:<br>
-        <input type="text" name="lastname" value="Mouse">
-        <br><br>
-        <input type="submit" value="Submit">
-    </form>
-</div>
-
-
 
 <div class="modal" id="myModal1">
   <div class="modal-dialog">
@@ -323,17 +234,16 @@ $('#close').on('click', function () {
       <div class="modal-body">
         <form action="/rating" method="post" class="login-form">
           <!-- drop down -->
+          Select a Song: 
           <select name="song_list" id="songs_list">
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="opel">Opel</option>
-            <option value="audi">Audi</option>
+            {% for sng in all_songs%}
+                  <option value="{{sng}}">{{sng}}</option>
+                {%endfor%}
         </select>
-        <input type="range" id="rting" name="rangeInput" min="0" max="5" step="0.1" onChange="change();"><span id="rs"></span>
-
-
+        <br><br>
+        Your Rating:<input type="range" id="rting" name="rangeInput" min="0" max="5" step="0.1" onChange="change();"><span id="rs"></span>
           <br><br>
-          <input class="submit_button" type="submit" value="Submit">
+        <input class="submit_button" type="submit" value="Submit">
           <br><br>
       </form> 
       </div>

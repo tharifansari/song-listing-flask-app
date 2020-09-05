@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <style>
         @charset "UTF-8";
         @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
@@ -94,27 +99,15 @@
                     box-shadow: 0 6px 6px -6px #0E1119;
         }
 
-        .container td:hover {
-        background-color: #FFF842;
-        color: #403E10;
-        font-weight: bold;
-        
-        box-shadow: #7F7C21 -1px 1px, #7F7C21 -2px 2px, #7F7C21 -3px 3px, #7F7C21 -4px 4px, #7F7C21 -5px 5px, #7F7C21 -6px 6px;
-        transform: translate3d(6px, -6px, 0);
-        
-        transition-delay: 0s;
-            transition-duration: 0.4s;
-            transition-property: all;
-        transition-timing-function: line;
-        }
-        .navbar {
+        .navbar, #rating_bttn, #add_artist_bttn {
   overflow: hidden;
   background-color: #2C3446;
   font-family: Arial;
+  border:none;
 }
 
 /* Links inside the navbar */
-.navbar a {
+.navbar a, #rating_bttn, #add_artist_bttn {
   float: left;
   font-size: 16px;
   color: white;
@@ -123,60 +116,13 @@
   text-decoration: none;
 }
 
-/* The dropdown container */
-.dropdown {
-  float: left;
-  overflow: hidden;
-}
-
-/* Dropdown button */
-.dropdown .dropbtn {
-  font-size: 16px; 
-  border: none;
-  outline: none;
-  color: white;
-  padding: 14px 16px;
-  background-color: inherit;
-  font-family: inherit; /* Important for vertical align on mobile phones */
-  margin: 0; /* Important for vertical align on mobile phones */
-}
-
 /* Add a red background color to navbar links on hover */
-.navbar a:hover, .dropdown:hover .dropbtn {
+.navbar a:hover, #rating_bttn:hover, #add_artist_bttn:hover{
   background-color: #FFF842;
   color: #403E10;
     font-weight: bold;
 }
 
-/* Dropdown content (hidden by default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-  float: none;
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
-}
-
-/* Add a grey background color to dropdown links on hover */
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-  display: block;
-}
 
         @media (max-width: 800px) {
         .container td:nth-child(4),
@@ -185,30 +131,54 @@
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <!-- <a href="#home">Home</a> -->
-        <div class="dropdown">
-          <button class="dropbtn">Top 10 
-            <i class="fa fa-caret-down"></i>
-          </button>
-          <div class="dropdown-content">
-            <a href="/top_10_songs">Songs</a>
-            <a href="/top_10_artist">Artists</a>
-          </div>
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add Artist</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-        <div class="dropdown">
-            <button class="dropbtn">Add
-              <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-              <a href="/add_song">Song</a>
-              <a href="#">Artist</a>
-            </div>
-          </div> 
-          <a href="#home">Rate a Song</a>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form action="/check_login" method="post" class="login-form">
+            <input type="text" name="artist_name" placeholder="Artist Name">
+            <br><br>
+            <input type="date" name="artist_dob" placeholder="Date of Birth">
+            <br><br>
+            <input type="text" name="artist_bio" placeholder="Bio">
+            <br><br>
+            <input class="submit_button" type="submit" value="Submit">
+            <br><br>
+        </form> 
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
       </div>
+    </div>
+  </div>
+
+  <div class="navbar">
+    <a href="/top_10_songs">Top 10 Songs</a>
+    <a href="/top_10_artist">Top 10 Artists</a>
+    <a href="/add_song">Add a Song</a>
+    <button type="button" id="add_artist_bttn" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+      Add Artist
+    </button>        
+    <button type="button" id="rating_bttn" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">
+      Rate a Song
+    </button>        
+  </div>
     <table class="container">
-        <caption><h1>Top 10 Artist</h1></caption>
+      <br>
+        <h1><i>Top 10 Artist</i></h1>
+        <br>
         <thead><tr>
             <th>Artist</th>
             <th>Date of Birth</th>
@@ -231,5 +201,51 @@
         {% endfor %}
     </tbody>
     </table>
+    <div class="modal" id="myModal1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+        
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Add Artist</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          
+          <!-- Modal body -->
+          <div class="modal-body">
+              <!-- drop down -->
+              <form action="/rating" method="post" class="login-form">
+                <!-- drop down -->
+                Song List : <select name="song_list" id="songs_list">
+                
+                  {% for sng in all_songs%}
+                    <option value="{{sng}}">{{sng}}</option>
+                  {%endfor%}
+              </select>
+              <br><br>
+              Your Rating : <input type="range" id="rting" name="rangeInput" min="0" max="5" step="0.1" onChange="change();"><span id="rs"></span>
+      
+      
+                <br><br>
+                <input class="submit_button" type="submit" value="Submit">
+                <br><br>
+          </form> 
+          </div>
+          
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
 </body>
+<script>
+  var result = document.getElementById("rs");
+  var mine = document.getElementById("rting");
+  function change(){
+      result.innerText = mine.value;
+  }
+  </script>
 </html>

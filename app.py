@@ -22,11 +22,13 @@ def top_10_songs():
     if 'userid' not in session:
         return redirect('/')
     top_songs_list = json.loads(requests.get(api_url+"/song?top=10").content)
+    all_song = json.loads(requests.get(api_url+"/song").content)
+    # print(all_song)
     for sng in top_songs_list:
         # print(str(api_url)+"/artist/"+str(sng))
         artist_dc = json.loads(requests.get(api_url+"/artist/"+sng['id']).content)
         sng['artist'] = artist_dc.values()
-    return render_template('top_songs.html',top_songs = top_songs_list)
+    return render_template('top_songs.html',top_songs = top_songs_list, all_songs = [sng['name'] for sng in all_song])
 
 
 @app.route("/top_10_artist", methods=["GET"])
@@ -34,10 +36,11 @@ def top_10_artist():
     if 'userid' not in session:
         return redirect('/')
     top_artist_list = json.loads(requests.get(api_url+"/artist?top=10").content)
+    all_song = json.loads(requests.get(api_url+"/song").content)
     for artst in top_artist_list:
         song_dc = json.loads(requests.get(api_url+"/song/"+artst['id']).content)
         artst['songs'] = song_dc.values()
-    return render_template('top_artist.html',top_artist = top_artist_list)
+    return render_template('top_artist.html',top_artist = top_artist_list, all_songs = [sng['name'] for sng in all_song])
 
 
 @app.route('/')
@@ -52,10 +55,44 @@ def sign_up():
 def login():
     return render_template('login.html')
 
+@app.route('/rating',methods=['POST'])
+def rating():
+    if 'userid' not in session:
+        return redirect('/')
+    song_name = str(request.form.get('song_list')).replace("b'","").replace("'","")
+    # get song_id
+    rating_by_user = float(request.form.get('rangeInput'))
+    user_id = str(session['userid']).replace("b'","").replace("'","")
+    data = {
+        "song_name" : song_name
+    }
+    song_id = str(requests.get(api_url+"/song?s_id=True",data=json.dumps(data) ).content)\
+        .replace("b'","").replace("'","")
+    print(requests.get(api_url+"/rating/{}/{}".format(user_id,song_id)))
+    if str(requests.get(api_url+"/rating/{}/{}".format(user_id,song_id))) == "True":
+        print("Rating given already")
+        return redirect(request.referrer)
+    data={
+        # user_id song_id rating
+        "user_id" : user_id,
+        "song_id" : song_id,
+        "rating" : rating_by_user
+    }
+    print(data)
+    signup_check = str(requests.post(api_url+"/rating", data=json.dumps(data)).content)
+    print(signup_check)
+    return redirect(request.referrer)
+
 
 @app.route('/add_song')
 def add_a_song():
-    return render_template('add_song.html')
+    if 'userid' not in session:
+        return redirect('/')
+    all_artist = json.loads(requests.get(api_url+"/artist").content)
+    all_song = json.loads(requests.get(api_url+"/song").content)
+    return render_template('add_song.html', artist_names = [artst['name'] for artst in all_artist]\
+         , all_songs = [sng['name'] for sng in all_song])
+
 
 @app.route('/add_user', methods=['POST'])
 def add_user():
@@ -89,33 +126,6 @@ def check_login():
         session.modified = True
         return redirect("/top_10_songs")
     return "Invalid Email"
-    
-
-# @app.route('/change_password', methods=['GET', 'POST'])
-# def change_password():
-#     if request.method == 'GET':
-#         return render_template('change_password.html')
-#     else:
-#         username = request.form.get('username')
-#         old_password = request.form.get('old_password')
-#         new_password = request.form.get('new_password')
-
-#         search_result = db.search(User.username == username)
-#         if len(search_result) == 0:
-#             return 'incorrect username.'
-#         else:
-#             old_password_hash = make_md5_hash(old_password)
-#             correct_password_hash = search_result[0]['password']
-#             if old_password_hash == correct_password_hash:
- 
-#                 result = db.update({
-#                     'password': make_md5_hash(new_password)}, 
-#                     User.username == username
-#                     )
-#                 print(result)
-#                 return redirect(url_for('home'))
-#             else:
-#                 return 'wrong password.'
 
 
 if __name__ == '__main__':
