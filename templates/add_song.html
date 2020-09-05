@@ -201,13 +201,13 @@
         <br>
           <div class="form">
 
-        <form action="/adding_song" method="post">
+        <form action="/adding_song" method="post" enctype="multipart/form-data" >
             <p><b>Song Name</b></p>
             <input type="text" name="song_name" placeholder="Enter the song name">
             <p><b>Date of Release</b></p>
             <input type="date" name="song_date" placeholder="Date Released">
-            <p><b>Cover Image</b></p>
-            <input type="file" name="cover_image" placeholder="Cover Image">
+            <p><b>Cover Image(.jpg format)</b></p>
+            <input type="file" id= "cover_image" name="cover_image" placeholder="Cover Image" accept=".jpg">
             <p><b>Select Artist</b></p>
             <select name="artists" id="artists" multiple>
             {%for artst in artist_names%}

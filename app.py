@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, session
+from flask import Flask, render_template, request, url_for, redirect, session, flash
 import os
 import requests 
 import json
@@ -82,6 +82,30 @@ def rating():
     signup_check = str(requests.post(api_url+"/rating", data=json.dumps(data)).content)
     print(signup_check)
     return redirect(request.referrer)
+
+
+@app.route('/adding_song', methods=["POST"])
+def addingsong():
+    if 'userid' not in session:
+        return redirect('/')
+    song_name = request.form.get('song_name')
+    song_date = request.form.get('song_date')
+    song_artist = request.form.getlist('artists')
+    # print(song_artist)
+    uploaded_file = request.files['cover_image']
+    file_path = "./static/"
+    data={
+        "name":song_name,
+        "date":song_date,
+        "artist":song_artist
+    }
+    song_id = str(requests.post(api_url+"/song", data=json.dumps(data)).content)\
+        .replace("b'","").replace("'","")    
+    uploaded_file.filename = song_id+".jpg"
+    uploaded_file.save(file_path+uploaded_file.filename)
+
+    return redirect("/top_10_songs")
+
 
 
 @app.route('/add_song')
