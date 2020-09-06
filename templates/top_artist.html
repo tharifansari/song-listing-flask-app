@@ -53,11 +53,11 @@
         <!-- Modal body -->
         <div class="modal-body">
           <form action="/add_new_artist" id="artist_form" method="post" class="login-form">
-            <input type="text" name="artist_name" placeholder="Artist Name">
+            <input type="text" id="artist_name" name="artist_name" placeholder="Artist Name">
             <br><br>
-            <input type="date" name="artist_dob" placeholder="Date of Birth">
+            <input type="date" id="artist_dob" name="artist_dob" placeholder="Date of Birth">
             <br><br>
-            <input type="text" name="artist_bio" placeholder="Bio">
+            <input type="text" id="artist_bio" name="artist_bio" placeholder="Bio">
             <br><br>
             <input class="submit_button" type="submit" value="Submit">
             <br><br>
@@ -172,6 +172,8 @@ $('#artist_form').on('submit', function(event) {
     },
     type : 'POST',
     url : '/add_new_artist'
+  }).done(function(data){
+        alert("Added Artist Successfully\n\nPlease Click the Close button");
   });
   event.preventDefault();
 });
