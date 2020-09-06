@@ -81,8 +81,7 @@ def rating():
         "song_name" : song_name
     }
     song_id = str(requests.get(api_url+"/song?s_id=True",data=json.dumps(data) ).content)\
-        .replace("b'","").replace("'","")
-    print(requests.get(api_url+"/rating/{}/{}".format(user_id,song_id)))
+        [2:].replace("'","")
     if str(requests.get(api_url+"/rating/{}/{}".format(user_id,song_id))) == "True":
         print("Rating given already")
         return redirect(request.referrer)
