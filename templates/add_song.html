@@ -1,226 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>Spotify Lite</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
 
+    @charset "UTF-8";
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 
-    <style>
-
-        @charset "UTF-8";
-        @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
-
-        body {
-        font-family: 'Open Sans', sans-serif;
-        font-weight: 300;
-        line-height: 1.42em;
-        color:#A7A1AE;
-        background-color:#1F2739;
-        }
-
-        h1 {
-        font-size:3em; 
-        font-weight: 300;
-        line-height:1em;
-        text-align: center;
-        color: #4DC3FA;
-        }
-
-        h2 {
-        font-size:1em; 
-        font-weight: 300;
-        text-align: center;
-        display: block;
-        line-height:1em;
-        padding-bottom: 2em;
-        color: #FB667A;
-        }
-
-        h2 a {
-        font-weight: 700;
-        text-transform: uppercase;
-        color: #FB667A;
-        text-decoration: none;
-        }
-
-        .blue { color: #185875; }
-        .yellow { color: #FFF842; }
-        .form {
-  position: relative;
-  z-index: 1;
-  background: #FFFFFF;
-  max-width: 400px;
-  margin: 0 auto 100px;
-  /*margin-left: 50%;
-  margin-right: -60%;*/
-  padding: 45px;
-  text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-}
-.form input {
-  font-family: "Roboto", sans-serif;
-  outline: 0;
-  background: #f2f2f2;
-  width: 100%;
-  border: 0;
-  margin: 0 0 15px;
-  padding: 15px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-.form select {
-  font-family: "Roboto", sans-serif;
-  outline: 0;
-  background: #f2f2f2;
-  width: 100%;
-  border: 0;
-  margin: 0 0 15px;
-  padding: 15px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-.form .submit_button {
-  font-family: "Roboto", sans-serif;
-  text-transform: uppercase;
-  outline: 0;
-  background: #32a2a8;
-  width: 100%;
-  border: 0;
-  padding: 15px;
-  color: #FFFFFF;
-  font-size: 14px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
-  cursor: pointer;
-}
-.form button:hover,.form button:active,.form button:focus {
-  background: #32a2a8;
-}
-.form .message {
-  margin: 15px 0 0;
-  color: #b3b3b3;
-  font-size: 12px;
-}
-.form .message a {
-  color: #32a2a8;
-  text-decoration: none;
-}
-.form .register-form {
-  display: none;
-}
-        .container {
-            text-align: left;
-            overflow: hidden;
-            width: 80%;
-            margin: 0 auto;
-        display: table;
-        padding: 0 0 8em 0;
-        }
-        .navbar, #add_artist_bttn, #rating_bttn {
-  overflow: hidden;
-  background-color: #2C3446;
-  font-family: Arial;
-  border: none;
-}
-
-/* Links inside the navbar */
-.navbar a, #add_artist_bttn, #rating_bttn {
-  float: left;
-  font-size: 16px;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-/* Add a red background color to navbar links on hover */
-.navbar a:hover,#add_artist_bttn:hover, #rating_bttn:hover {
-  background-color: #FFF842;
-  color: #403E10;
-    font-weight: bold;
-}
-
-        @media (max-width: 800px) {
-        .container td:nth-child(4),
-        .container th:nth-child(4) { display: none; }
-        }
-    </style>
+    body {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.42em;
+    color:#A7A1AE;
+    background-color:#1F2739;
+    }
+    
+    #add_artist_bttn:hover {
+        background-color: #FFF842;
+        color: #403E10;
+          font-weight: bold;
+    }
+    
+    #add_artist_bttn {
+      overflow: hidden;
+      background-color: #2C3446;
+      font-family: Arial;
+      border: none;
+      float: left;
+      font-size: 16px;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/top_song.css') }}" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/form_css.css') }}" />
 </head>
+
 <body>
 <!-- The Modal -->
-<div class="modal" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-    
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Add Artist</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
       
-      <!-- Modal body -->
-      <div class="modal-body">
-        <form action="/add_new_artist" id="artist_form" method="post" class="login-form">
-          <input type="text" name="artist_name" id="artist_name" placeholder="Artist Name">
-          <br><br>
-          <input type="date" id="artist_dob" name="artist_dob" placeholder="Date of Birth">
-          <br><br>
-          <input type="text" name="artist_bio" id="artist_bio" placeholder="Bio">
-          <br><br>
-          <input class="submit_button" id="new_artist_submit" type="submit" value="Submit">
-          <br><br>
-      </form> 
-      <div id="form-response"></div>
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add Artist</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form action="/add_new_artist" id="artist_form" method="post" class="login-form">
+            <input type="text" name="artist_name" id="artist_name" placeholder="Artist Name">
+            <br><br>
+            <input type="date" id="artist_dob" name="artist_dob" placeholder="Date of Birth">
+            <br><br>
+            <input type="text" name="artist_bio" id="artist_bio" placeholder="Bio">
+            <br><br>
+            <input class="submit_button" id="new_artist_submit" type="submit" value="Submit">
+            <br><br>
+        </form> 
+        <div id="form-response"></div>
 
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" id="reload_artist_options" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
       </div>
-      
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" id="reload_artist_options" class="btn btn-danger" data-dismiss="modal">Close</button>
-      </div>
-      
     </div>
   </div>
-</div>
 
-<div class="navbar">
-  <a href="/top_10_songs">Top 10 Songs</a>
-  <a href="/top_10_artist">Top 10 Artists</a>
-  <a href="/add_song">Add a Song</a>
-  <button type="button" id="add_artist_bttn" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-    Add Artist
-  </button>        
-  <button type="button" id="rating_bttn" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">
-    Rate a Song
-  </button>        
-</div>
-      
-      <br>
-      <div class="container">
-        <h1><i>Add a Song</i></h1>
-        <br>
-          <div class="form">
+  <div class="navbar">
+    <a href="/top_10_songs">Top 10 Songs</a>
+    <a href="/top_10_artist">Top 10 Artists</a>
+    <a href="/add_song">Add a Song</a>
+    <button type="button" id="add_artist_bttn" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+      Add Artist
+    </button>        
+    <button type="button" id="rating_bttn" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">
+      Rate a Song
+    </button>        
+  </div>
+  <br>
+  <div class="container">
+    <h1><i>Add a Song</i></h1>
+    <br>
+    <div class="form">
 
-        <form action="/adding_song" method="post" enctype="multipart/form-data" >
-            <p><b>Song Name</b></p>
-            <input type="text" name="song_name" placeholder="Enter the song name">
-            <p><b>Date of Release</b></p>
-            <input type="date" name="song_date" placeholder="Date Released">
-            <p><b>Cover Image(.jpg format)</b></p>
-            <input type="file" id= "cover_image" name="cover_image" placeholder="Cover Image" accept=".jpg">
-            <p><b>Select Artist</b></p>
-            <select name="artists" id="artists" multiple>
-            {%for artst in artist_names%}
-                <option value="{{artst}}">{{artst}}</option>
-            {% endfor %}
-              </select>
-            <br><br>
-            <input class="submit_button" type="submit" value="Submit">
-        </form> 
+      <form action="/adding_song" method="post" enctype="multipart/form-data" >
+          <p><b>Song Name</b></p>
+          <input type="text" name="song_name" placeholder="Enter the song name">
+          <p><b>Date of Release</b></p>
+          <input type="date" name="song_date" placeholder="Date Released">
+          <p><b>Cover Image(.jpg format)</b></p>
+          <input type="file" id= "cover_image" name="cover_image" placeholder="Cover Image" accept=".jpg">
+          <p><b>Select Artist</b></p>
+          <select name="artists" id="artists" multiple>
+          {%for artst in artist_names%}
+              <option value="{{artst}}">{{artst}}</option>
+          {% endfor %}
+            </select>
+          <br><br>
+          <input class="submit_button" type="submit" value="Submit">
+      </form> 
     </div>
-    </div>
+  </div>
 
 <div class="modal" id="myModal1">
   <div class="modal-dialog">
@@ -245,7 +138,7 @@
         <br><br>
         Your Rating:<input type="range" id="rting" name="rangeInput" min="0" max="5" step="0.1" onChange="change();"><span id="rs"></span>
           <br><br>
-        <input class="submit_button" type="submit" value="Submit">
+        <input id="rating_sbmt" class="submit_button" type="submit" value="Submit">
           <br><br>
       </form> 
       </div>
@@ -258,97 +151,55 @@
     </div>
   </div>
 </div>
-
-<!-- <button id="show">Show form</button> -->
 </body>
+
 <script>
   var result = document.getElementById("rs");
   var mine = document.getElementById("rting");
   function change(){
       result.innerText = mine.value;
   }
-  </script>
-  <script>
+</script>
 
-$(document).ready(function() {
-  $('#reload_artist_options').on('click',function(event){
+<script>
+  $("#rating_sbmt").click(function(){
+    alert("Your respone is recorded successfully");
+  });
+
+  $(document).ready(function() {
+    $('#reload_artist_options').on('click',function(event){
+      $.ajax({
+        type : 'GET',
+        url : '/add_artists_options'
+      }).done(function(data){
+        var $el = $("#artists");
+      $el.empty(); // remove old options
+      $.each(data, function(key,value) {
+        $el.append($("<option></option>").attr("value", value).text(key));
+      });
+      });
+      event.preventDefault();
+    });
+  });
+
+  $(document).ready(function() {
+  $('#artist_form').on('submit', function(event) {
+
     $.ajax({
-      type : 'GET',
-      url : '/add_artists_options'
+      data : {
+        artist_name : $('#artist_name').val(),
+        artist_dob : $('#artist_dob').val(),
+        artist_bio : $('#artist_bio').val()
+      },
+      type : 'POST',
+      url : '/add_new_artist'
     }).done(function(data){
-      var $el = $("#artists");
-    $el.empty(); // remove old options
-    $.each(data, function(key,value) {
-      $el.append($("<option></option>").attr("value", value).text(key));
-    });
-    });
+        alert("Added Artist Successfully\n\nPlease Click the Close button");
+      });
     event.preventDefault();
+
   });
-});
 
-$(document).ready(function() {
-$('#artist_form').on('submit', function(event) {
-
-  $.ajax({
-    data : {
-      artist_name : $('#artist_name').val(),
-      artist_dob : $('#artist_dob').val(),
-      artist_bio : $('#artist_bio').val()
-    },
-    type : 'POST',
-    url : '/add_new_artist'
   });
-  event.preventDefault();
-
-});
-
-});
-
-// $('#new_artist_submit').click(function(event){
-//     // Prevent redirection with AJAX for contact form
-//     // event.preventDefault();
-//     var form = $('#artist_form');
-//     var form_id = 'artist_form';
-//     var url = form.prop('action');
-//     var type = form.prop('method');
-//     var formData = getContactFormData(form_id);
-
-//     // submit form via AJAX
-//     // 
-    
-//     send_form(form, form_id, url, type, modular_ajax, formData);
-    
-// });
-
-// function getContactFormData(form) {
-//     // creates a FormData object and adds chips text
-//     var formData = new FormData(document.getElementById(form));
-// //    for (var [key, value] of formData.entries()) { console.log('formData', key, value);}
-//     return formData
-// }
-
-// function modular_ajax(url, type, formData) {
-//     // Most simple modular AJAX building block
-//     $.ajax({
-//         url: url,
-//         type: type,
-//         data: formData,
-//         processData: false,
-//         contentType: false,
-//         success: function ( data ){
-//             if ( !$.trim( data.msg )) { // response from Flask is empty
-//                 toast_error_msg = "An empty response was returned.";
-//             }
-//             else { // response from Flask contains elements
-//                 toast_error_msg = data.msg;
-
-//             }
-//         },
-//         error: function(xhr) {console.log("error. see details below.");
-//             console.log(xhr.status + ": " + xhr.responseText);
-//             toast_error_msg = "An error occured";
-//         },
-//     })
-// };
-  </script>
+</script>
 </html>

@@ -25,6 +25,7 @@ def select_option_update():
         data[artst['name']] = artst['name']
     return make_response(jsonify(data), 200)
 
+
 @app.route("/add_new_artist", methods=["POST"])
 def add_a_new_artist():
     if 'userid' not in session:
@@ -38,25 +39,19 @@ def add_a_new_artist():
         "dob":artist_dob,
         "bio":artist_bio
     }
-    # print(data)
     respnse = requests.post(api_url+"/artist", data=json.dumps(data))
     if respnse.status_code == 200:
         respns = {"msg":"Success"}
         return make_response(jsonify(respns), 200)
 
 
-
-
 @app.route("/top_10_songs", methods=["GET"])
 def top_10_songs():    
-    # print(session['userid'])
     if 'userid' not in session:
         return redirect('/')
     top_songs_list = json.loads(requests.get(api_url+"/song?top=10").content)
     all_song = json.loads(requests.get(api_url+"/song").content)
-    # print(all_song)
     for sng in top_songs_list:
-        # print(str(api_url)+"/artist/"+str(sng))
         artist_dc = json.loads(requests.get(api_url+"/artist/"+sng['id']).content)
         sng['artist'] = artist_dc.values()
     return render_template('top_songs.html',top_songs = top_songs_list, all_songs = [sng['name'] for sng in all_song])
@@ -73,18 +68,6 @@ def top_10_artist():
         artst['songs'] = song_dc.values()
     return render_template('top_artist.html',top_artist = top_artist_list, all_songs = [sng['name'] for sng in all_song])
 
-
-@app.route('/')
-def home():
-    return render_template('home.html')
-
-@app.route('/sign_up')
-def sign_up():
-    return render_template('signup.html')
-
-@app.route('/login')
-def login():
-    return render_template('login.html')
 
 @app.route('/rating',methods=['POST'])
 def rating():
@@ -109,9 +92,7 @@ def rating():
         "song_id" : song_id,
         "rating" : rating_by_user
     }
-    print(data)
     signup_check = str(requests.post(api_url+"/rating", data=json.dumps(data)).content)
-    print(signup_check)
     return redirect(request.referrer)
 
 
@@ -136,7 +117,6 @@ def addingsong():
     uploaded_file.save(file_path+uploaded_file.filename)
 
     return redirect("/top_10_songs")
-
 
 
 @app.route('/add_song')
@@ -165,7 +145,6 @@ def add_user():
     return "Email already exist"
     
 
-
 @app.route('/check_login', methods=['POST'])
 def check_login():
     mail = request.form.get('mail')
@@ -180,7 +159,20 @@ def check_login():
         session.permanent = False
         session.modified = True
         return redirect("/top_10_songs")
-    return "Invalid Email"
+    return "Invalid Email or password..."
+
+
+@app.route('/')
+def home():
+    return render_template('home.html')
+
+@app.route('/sign_up')
+def sign_up():
+    return render_template('signup.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
 
 if __name__ == '__main__':
